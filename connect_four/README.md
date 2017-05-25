@@ -1,12 +1,12 @@
-Connect Four Implementation Guide
+# Connect Four Implementation Guide
 
-Game Description
+## Game Description
  - Two players play on a board with 6 rows and 7 columns. Each player has infinite number of pieces.
  - The goal of the game is to connect exactly four of your pieces in a row in any orientation (horizontal, vertical, diagonal).
  - A spot on the board is only playable if all the spots below are NOT empty.
  - If all the spots are filled with no winners, the game ends in a draw.
 
-Necessary Implementations
+## Necessary Implementations
 
  - def play(board, lastspot, mylast, piece, retry)
  
