@@ -1,13 +1,13 @@
-Battleship Bot Implementation Guide
+# Battleship Implementation Guide
 
-Game Description
+## Game Description
  - Each player has a 10x10 board, a four-block-long battleship, two three-block-long cruisers, three two-block-long destroyers, and four one-block-long submarines.
  - Before the game starts, each player positions all of the ships on the board. A ship cannot be adjacent to any other ship, even diagonally.
  - For each turn, a player selects the desired attack coordinate on opponent's board.
  - A ship sinks if and only if all the blocks occupied by the ship is attacked.
  - First player to sink all of the opponent's ships wins.
 
-Necessary Implementations
+## Necessary Implementations
 
  - def deploy(width, height)
 
