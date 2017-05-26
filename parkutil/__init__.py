@@ -3,14 +3,11 @@ import sys
 import signal
 import inspect
 import importlib
+
 from parkutil.exceptions import *
 
 timeout_sec = 1
 registered_functions = None
-
-def version_check():
-    if sys.version_info < (3, 0):
-        raise IncompatiblePythonVersion('Codepark needs python >= 3.x')
 
 def init():
     global registered_functions
@@ -24,66 +21,56 @@ def register_function(funcname, argnum):
     registered_functions[funcname] = argnum
 
 def get_players(minn, maxn=None):
-    gamename = os.path.basename(sys.argv[0])[:-3]
+    gamename = 'battleship' # TODO
+
+    # check min number
     if len(sys.argv) - 1 < minn:
         raise NotEnoughPlayers('Need at least %s players to play %s' % (minn, gamename))
-
+    # check max numer
     if maxn == None:
         maxn = minn
     if len(sys.argv) - 1 > maxn:
         raise TooManyPlayers('Only %s players can play %s at once' % (maxn, gamename))
-    else:
-        maxn = len(sys.argv) - 1
+
+    # add players directory to sys path
+    players_home = os.getenv('CODEPARK_PLAYERS_HOME', None)
+    if players_home == None:
+        raise PlayersHomeNotSet('The environment variable \'CODEPARK_PLAYERS_HOME\' is not set')
+    sys.path.append(players_home)
 
     players = []
-    for i in range(maxn):
-        pname = sys.argv[i + 1]
-        p = None
-        try:
-            p = importlib.import_module('%s.players.%s' % (gamename, pname))
-        except ModuleNotFoundError:
-            raise PlayerNotFound('Player %s is not found' % pname)
+    for uid in sys.argv[1:]:
+        # try:
+        p = importlib.import_module('%s.%s' % (uid, gamename))
+        players.append(PlayerWrapper(p, uid))
 
         for f, argn in registered_functions.items():
             if not hasattr(p, f):
-                raise IncompleteImplementation('Player %s does not have a required function \'%s\'' % (pname, f))
-            elif len(inspect.signature(getattr(p, f)).parameters) != argn:
+                raise IncompleteImplementation('Player %s does not have a required function \'%s\'' % (uid, f))
+            elif len(inspect.getargspec(getattr(p, f))[0]) != argn:
                 raise MismatchingFunctionSignature('Player function \'%s\' should have %s arguments' % (f, argn))
-        players.append(PlayerWrapper(p))
+        # except ModuleNotFoundError:
+        #     raise PlayerNotFound('User with uid %s doesn\'t have a player for this game.' % uid)
+
     return players
 
-def player_name(pnum):
-    try:
-        return sys.argv[pnum]
-    except IndexError:
-        raise PlayerNotFound('Player #%s is not found' % pnum)
-
-def set_timeout(sec):
-    timeout_sec = 1 if sec > 3 or sec < 0 else sec
-
-def reset_clock(sec):
-    signal.alarm(0)
-    signal.alarm(sec)
-
-def stop_clock():
-    signal.alarm(0)
-
 class PlayerWrapper:
-    def __init__(self, p):
+    def __init__(self, p, uid):
         self.p = p
+        self.uid = uid
+        self.timeout_sec = 1
 
     def __getattr__(self, name):
         def timeout_call(*args, **kwargs):
             f = getattr(self.p, name)
             if callable(f):
-                reset_clock(timeout_sec)
+                signal.alarm(self.timeout_sec)
                 try:
                     return f(*args, **kwargs)
                 finally:
-                    stop_clock()
+                    signal.alarm(0)
             else:
                 return f
         return timeout_call
 
-version_check()
 init()

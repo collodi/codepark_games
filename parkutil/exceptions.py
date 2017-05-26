@@ -1,6 +1,9 @@
 class NotEnoughPlayers(Exception):
     pass
 
+class PlayersHomeNotSet(Exception):
+    pass
+
 class TooManyPlayers(Exception):
     pass
 
