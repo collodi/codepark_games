@@ -53,7 +53,7 @@
      - (row, column) to attack on the opponent's board
      - row and column values should be a valid coordinate on the board
      - if the value is not a valid attack spot, your turn will be skipped
-     - return (None, None) to skip your turn
+     - return None to skip your turn
      - already attacked coordinate is NOT a valid coordinate
 
    - notes
