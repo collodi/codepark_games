@@ -6,25 +6,25 @@ A game should have a directory structure of
 
     games/
     |
-    | <game name>.py
+    | <game name>_refree.py
     | <game name>/
       | __init__.py
-      | <subpackages, files, etc.>
+      | <subpackages, modules, etc.>
 
-All files, except <game name>.py, should be inside its corresponding <game name>/ directory.
+All files, except the refree file, should be inside its corresponding <game name>/ directory.
 
 # Dependencies Between User Codes And Game Files
 
-Your `<game name>.py` is a single program that will be executed to run the game.
+Your `<game name>_refree.py` is a single program that will be executed to run the game.
 The `uid` of the player(s) will be given as command line arguments like this:
 
-    python2.7 <game name>.py uid1 uid2 ...
+    python2.7 <game name>_refree.py uid1 uid2 ...
 
 and the files submitted by each user will take the form of `<uid>/<game name>.py` within a designated system directory.
 
-The main file `<game name>.py` should keep scores, produce game results, and optionally log intermediate metadata of the game.
+The main file `<game name>_refree.py` should keep scores, produce game results, and optionally log intermediate metadata of the game.
 
-# Inside <game name>.py
+# Inside <game name>_refree.py
 
 ## parkutil package
 `parkutil` package contains useful functions and exceptions relevant to managing a game.
@@ -37,9 +37,7 @@ The package can be used like this:
 and every game should be implemented in Python 2.7.
 
 ## initializing a game
-In every `<game name>.py`, it is strongly recommended to check for the necessary functions for a game by using `register_function(name, argnum)` function in `parkutil` package.
-Registering necessary functions should be done before getting the player instances.
-`parkutil` will check for the existence of a function `name` taking `argnum` number of arguments when loading player instances.
+In every `<game name>_refree.py`, you should check for the necessary functions for a game by using `register_function(name, argnum)` function in `parkutil` package. Registering necessary functions should be done before calling `get_players()`, which get you player instances. `parkutil` will check for the existence of a function `name` taking `argnum` number of arguments when loading player instances.
 
 ## getting player instances
 `get_players(min number of players, max number of players)` function in `parkutil` package returns a list of player instances. When max is missing, the function will look for exactly the minimum number of players.  
