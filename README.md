@@ -2,70 +2,58 @@
 all games available on codepark
 
 # Directory Structure of A Game
-
-  A game should have a directory structure of
+A game should have a directory structure of
 
     games/
     |
     | <game name>.py
     | <game name>/
       | __init__.py
-      | players/
-        | <... player names...>
       | <subpackages, files, etc.>
 
-  All files for a game that are not <game name>.py should be inside its corresponding <game name>/ folder.
-  The goal is to keep the games/ folder to have one file and one folder for each game.
+All files, except <game name>.py, should be inside its corresponding <game name>/ directory.
 
 # Dependencies Between User Codes And Game Files
 
-  Your `<game name>.py` is a single program that will be executed to run the game.
-  The usernames of the player(s) that are playing the game will be given as command line arguments like this:
+Your `<game name>.py` is a single program that will be executed to run the game.
+The `uid` of the player(s) will be given as command line arguments like this:
 
-    python3 <game name>.py username1 username2 ...
+    python2.7 <game name>.py uid1 uid2 ...
 
-  and the files submitted by each user will take the form of `<username>.py` in `<game name>/players/` for each game.
+and the files submitted by each user will take the form of `<uid>/<game name>.py` within a designated system directory.
 
-  The main file should keep scores, produce game results, and optionally log intermediate metadata of the game.
+The main file `<game name>.py` should keep scores, produce game results, and optionally log intermediate metadata of the game.
 
 # Inside <game name>.py
 
 ## parkutil package
-  `parkutil` package contains useful functions and exceptions relevant to managing a game.
-  Your game should use this pakcage to interact with the player instances in order to be admitted as a codepark game.
-  The package can be used like this:
+`parkutil` package contains useful functions and exceptions relevant to managing a game.
+If writing a codepark game, you should use this pakcage to interact with the player instances.
+The package can be used like this:
 
     import parkutil
     from parkutil.exceptions import *
   
-  Every game should be implemented in Python 3.x. Any Python version less than 3.x will be rejected.
+and every game should be implemented in Python 2.7.
 
 ## initializing a game
-  In every `<game name>.py`, it is strongly recommended to check for the necessary functions for a game by using `register_function(name, argnum)` function in `parkutil` package.
-  `name` is a required argument, and tells to check for the existence of a function with `name`.
-  `argnum` is a required argument, and signifies the exact number of arguments needed for the function `name`.
-  Registering necessary functions should be done before getting the player instances.
+In every `<game name>.py`, it is strongly recommended to check for the necessary functions for a game by using `register_function(name, argnum)` function in `parkutil` package.
+Registering necessary functions should be done before getting the player instances.
+`parkutil` will check for the existence of a function `name` taking `argnum` number of arguments when loading player instances.
 
 ## getting player instances
-  The instances of players can be obtained using `get_players(minn, maxn)` function in `parkutil` package.
-  `minn` is a required argument, and tells the function the minimum number of players.
-  `maxn` is an optional argument, and tell the function the maximum number of players.
-  If `max` is not specified, the function will assume that exactly `minn` number of players are needed.
+`get_players(min number of players, max number of players)` function in `parkutil` package returns a list of player instances. When max is missing, the function will look for exactly the minimum number of players.  
+This function throws following exceptions.
+ - parkutil.exceptions.NotEnoughPlayers
+ - parkutil.exceptions.TooManyPlayers
+ - parkutil.exceptions.PlayersHomeNotSet (raised if environment variable 'CODEPARK_PLAYERS_HOME' does not exists)
+ - parkutil.exceptions.PlayerNotFound
+ - parkutil.exceptions.IncompleteImplementation (raised if a player does not have all required functions)
+ - parkutil.exceptions.MismatchingFunctionSignature (raised if a player's required function takes in a wrong number of arguments)
 
-## getting the username of a player
-  When the username of a player is needed, use `player_name(pnum)` function in `parkutil` package.
-  `pnum` is the player number, which starts from 1.
+## getting the uid of a player
+Each player instance returned from `get_players()` has a `uid` attribute.
 
 ## setting player function timeouts
-  All player functions will be run with a time. `(0 < timeout <= 3)`
-  Timeouts can be set with `set_timeout()` function in `parkutil` package.
-  Every call to a user function will raise a `parkutil.exceptions.ClockTimeout` exception after `timeout`.
-  If no timeout was set by the game, it will default to 1.
-
-## using the timeout clock manually
-  `parkutil`'s timeout can be set with `reset_clock(sec)` function.
-  `sec` is a reqired argument, and tells the function to generate a `parkutil.exceptions.ClockTimeout` exception after `sec` seconds.
-  
-  If the timeout exception is no longer needed before it's raised, you should terminate the running clock with `stop_clock()` function.
-
-  You cannot register more than one timeout at the same time. In other words, the manual use of the `parkutil` timeout cannot overlap with the player function calls. The player function calls will override the previously registered timeouts.
+To prevent player functions from delaying the game, they run with a timeout.
+Each player instance has its own timeout constant `timeout_sec` with a default value of 1 (in seconds), and `parkutil.exceptions.ClockTimeout` will be raised if a player function does not terminate within the time limit.
