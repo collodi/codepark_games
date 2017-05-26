@@ -4,6 +4,6 @@ def deploy(w, h):
 def play(board, attacks, lastmove, sunk):
     for c in range(len(attacks[0])):
         for r in range(len(attacks)):
-            if attacks[r][c] == 0:
+            if not attacks[r][c].is_hit:
                 return (r, c)
     return None

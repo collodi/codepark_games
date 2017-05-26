@@ -21,7 +21,7 @@ def register_function(funcname, argnum):
     registered_functions[funcname] = argnum
 
 def get_players(minn, maxn=None):
-    gamename = 'battleship' # TODO
+    gamename = sys.argv[0][:-len('_refree.py')]
 
     # check min number
     if len(sys.argv) - 1 < minn:
@@ -40,18 +40,17 @@ def get_players(minn, maxn=None):
 
     players = []
     for uid in sys.argv[1:]:
-        # try:
-        p = importlib.import_module('%s.%s' % (uid, gamename))
-        players.append(PlayerWrapper(p, uid))
+        try:
+            p = importlib.import_module('%s.%s' % (uid, gamename))
+            players.append(PlayerWrapper(p, uid))
 
-        for f, argn in registered_functions.items():
-            if not hasattr(p, f):
-                raise IncompleteImplementation('Player %s does not have a required function \'%s\'' % (uid, f))
-            elif len(inspect.getargspec(getattr(p, f))[0]) != argn:
-                raise MismatchingFunctionSignature('Player function \'%s\' should have %s arguments' % (f, argn))
-        # except ModuleNotFoundError:
-        #     raise PlayerNotFound('User with uid %s doesn\'t have a player for this game.' % uid)
-
+            for f, argn in registered_functions.iteritems():
+                if not hasattr(p, f):
+                    raise IncompleteImplementation('Player %s does not have a required function \'%s\'' % (uid, f))
+                elif len(inspect.getargspec(getattr(p, f))[0]) != argn:
+                    raise MismatchingFunctionSignature('Player function \'%s\' should have %s arguments' % (f, argn))
+        except ImportError:
+            raise PlayerNotFound('User with uid %s doesn\'t have a player for %s.' % (uid, gamename))
     return players
 
 class PlayerWrapper:

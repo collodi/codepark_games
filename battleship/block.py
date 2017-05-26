@@ -1,3 +1,5 @@
+import copy
+
 class block:
     def __init__(self, r, c):
         self.r = r
