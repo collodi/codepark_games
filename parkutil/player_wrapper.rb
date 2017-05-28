@@ -1,13 +1,18 @@
 module Parkutil
 
   class PlayerWrapper
-    def initialize(p, uid)
-      @p = p
+    attr_reader :uid
+    attr_accessor :timeout_sec
+
+    def initialize(f, uid)
+      require f
+      extend Battleship # TODO has to be variable
+
       @uid = uid
       @timeout_sec = 1
     end
 
-    # TODO override method calls
+    # TODO override method calls (timer, sandbox)
   end
 
 end

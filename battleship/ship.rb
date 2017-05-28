@@ -1,13 +1,15 @@
 module Battleship
 
   class Ship
+    attr_reader :sunk, :l
+
     def initialize(ship, len)
       r, c, o = ship
 
       @l = len
       @orient = (o == 'H')
 
-      @s = Block(r, c)
+      @s = Block.new(r, c)
       if @orient then
         @e = @s.offset_by(0, len - 1)
       else
@@ -19,11 +21,11 @@ module Battleship
     end
 
     def fits?(dim)
-      @s.with_in(*dim) and @e.with_in(*dim)
+      @s.with_in?(*dim) and @e.with_in?(*dim)
     end
 
     def hit?(b)
-      return false if @is_sunk or not b.with_in(@s, @e)
+      return false if @sunk or not b.with_in?(@s, @e)
 
       @hits += 1
       @sunk = true if @hits == @l
@@ -31,7 +33,7 @@ module Battleship
     end
 
     def blocks
-      (@s[0]..@e[0]).cycle.take(@l).zip @s[1]..@e[1]
+      (@s.r..@e.r).cycle.take(@l).zip (@s.c..@e.c).cycle
     end
   end
 

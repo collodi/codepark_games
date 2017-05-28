@@ -1,6 +1,9 @@
 module Battleship
 
   class Block
+    attr_reader :r, :c
+    attr_accessor :is_occupied, :is_hit
+
     def initialize(r, c)
       @r, @c = r, c
       @is_occupied = false
@@ -8,11 +11,11 @@ module Battleship
     end
 
     def offset_by(r, c)
-      return Block(@r + r, @c + c)
+      return Block.new(@r + r, @c + c)
     end
 
     def with_in?(b1, b2)
-      (b1.r <= @r <= b2.r) and (b1.c <= @c <= b2.c)
+      @r.between?(b1.r, b2.r) and @c.between?(b1.c, b2.c)
     end
 
     def hide_cp
@@ -20,3 +23,6 @@ module Battleship
       c.is_occupied = nil
       return c
     end
+  end
+
+end

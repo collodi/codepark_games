@@ -1,8 +1,11 @@
 module Battleship
 
   class Board
+    attr_reader :opp_skipped, :last_attacked, :last_sunk
+    attr_accessor :lost
+
     def initialize(w, h)
-      @dim = [Block(0, 0), Block(w, h)]
+      @dim = [Block.new(0, 0), Block.new(w, h)]
       @lost = false
 
       @ships = []
@@ -12,8 +15,8 @@ module Battleship
       @last_sunk = 0
 
       @opp_skipped = false
-      @board = w.times do |i|
-        h.times { |j| Block(i, j) }
+      @board = w.times.map do |i|
+        h.times.map { |j| Block.new(i, j) }
       end
     end
 
@@ -23,7 +26,7 @@ module Battleship
 
       # check if ships fits in the board
       ships.each_index do |i|
-        s = Ship(ships[i], @shiplens[i])
+        s = Ship.new(ships[i], @shiplens[i])
         if s.fits? @dim then
           @ships.push(s)
           # check overlap & occupy board
@@ -64,7 +67,7 @@ module Battleship
       end
 
       # inside the board? && not yet hit?
-      b = @board[h.first][h.second]
+      b = @board[h[0]][h[1]]
       if not b.with_in?(*@dim) or b.is_hit then
         @last_attacked = nil
         @opp_skipped = true
@@ -76,13 +79,13 @@ module Battleship
       # check if it hit a ship
       @ships.each do |s|
         if s.hit?(b) then
-          @last_sunk = s.l if s.is_sunk
+          @last_sunk = s.l if s.sunk
           break
         end
       end
 
       # check if lost
-      self.lost = true if @ships.each { |s| s.is_sunk }.all?
+      self.lost = true if @ships.all? { |s| s.sunk }
     end
   end
 
