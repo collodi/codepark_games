@@ -29,7 +29,7 @@ module Parkutil
       # check if player exists
       raise PlayerNotFound, "User #{uid} does not have a player for #{gamename}" if not File.exist? f
 
-      p = PlayerWrapper.new(f, uid) # TODO
+      p = PlayerWrapper.new(f, uid)
       @players.push(p)
 
       @registered_functions.each do |func, argc|
