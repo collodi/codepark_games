@@ -5,8 +5,10 @@ module Parkutil
     attr_accessor :timeout_sec
 
     def initialize(f, uid)
+      module_name = f.basename('.rb').to_s.split('_').map(&:capitalize).join
+
       require f
-      extend Battleship # TODO has to be variable
+      extend Object.const_get(module_name)
 
       @uid = uid
       @timeout_sec = 1
