@@ -12,8 +12,8 @@ module Battleship
       @last_sunk = 0
 
       @opp_skipped = false
-      @board = (0...w).map do |i|
-        (0...h).map { |j| Block(i, j) }
+      @board = w.times do |i|
+        h.times { |j| Block(i, j) }
       end
     end
 
