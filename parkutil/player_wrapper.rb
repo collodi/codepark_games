@@ -1,3 +1,5 @@
+require 'timeout'
+
 module Parkutil
 
   class PlayerWrapper
@@ -23,8 +25,10 @@ module Parkutil
 
         m.instance_methods.each do |func|
           define_method(func) do |*args, &blk|
-            # TODO (timer, sandbox)
-            super(*args, &blk)
+            Timeout::timeout(@timeout_sec, Parkutil::ClockTimeout) do
+              # TODO (sandbox)
+              super(*args, &blk)
+            end
           end
         end
       end
