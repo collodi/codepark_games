@@ -11,6 +11,7 @@
  - For each turn, a player selects the desired attack coordinate on opponent's board.
  - A ship sinks if and only if all the blocks occupied by the ship are attacked.
  - First player to sink all of the opponent's ships wins.
+ - All player functions will have 1 second to return a valid result.
 
 ## Game Objects
 - board: a two dimensional array of blocks (e.g. board[row][column])
