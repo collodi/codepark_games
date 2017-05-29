@@ -17,11 +17,12 @@ A game should have a directory structure of
 # Dependencies Between User Codes And Game Files
 
 Your `<game_name>_refree.rb` is a single program that will be executed to run the game.
-The `uid` of the player(s) will be given as command line arguments like this:
+The `uid` of the player(s) will be given as command line arguments like this,
 
-    ruby <game_name>_refree.rb uid1 uid2 ...
+    ruby <game_name>_refree.rb <uid1> <uid2>
 
-and the files submitted by each user will take the form of `<uid>/<game_name>.rb` within a designated system directory.
+and the player who initiated the game will be `<uid2>` (`<uid1>` goes first in the game by default).
+Files submitted by each user will take the form of `<uid>/<game_name>.rb` within a designated system directory.
 
 The main file `<game_name>_refree.rb` should keep scores, produce game results, and optionally log intermediate metadata of the game.
 
