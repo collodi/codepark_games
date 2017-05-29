@@ -20,7 +20,7 @@ module Parkutil
         raise MismatchingFunctionSignature, "User #{uid}'s function '#{func}' should have #{argc} argumens" if m.instance_method(func).arity != argc
       end
 
-      to_prepend = Module.new do
+      to_extend = Module.new do
         include m
 
         m.instance_methods.each do |func|
@@ -33,7 +33,7 @@ module Parkutil
         end
       end
 
-      extend to_prepend
+      extend to_extend
     end
 
   end
