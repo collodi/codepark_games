@@ -21,10 +21,10 @@ class BattleshipRefree
     while true do
       r = self.over
       if r == -2 then
-        puts 'Game ended in a draw'
+        puts 'DRAW'
         break
       elsif r != -1 then
-        puts "#{Parkutil.player(r).uid} won"
+        puts Parkutil.player(r).uid
         break
       end
 
