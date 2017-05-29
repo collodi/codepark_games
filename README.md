@@ -68,5 +68,8 @@ This function throws following exceptions:
 To prevent player functions from delaying the game, they run with a timeout.
 Each player instance has its own timeout constant `timeout_sec` with a default value of 1 (seconds), and this variable may be rewritten by a refree. `Parkutil::ClockTimeout` will be raised if a player function does not terminate within the time limit.
 
+## Output of A Game
+The refree file should output only the `uid` of the winner and nothing else. If the game is a draw, the game should print out 'DRAW' (all uppercase & without quotes).
+
 ## Implementation Example
 For a game implementation example, look at the game `Battleship`. 
