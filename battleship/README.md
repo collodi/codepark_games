@@ -61,3 +61,6 @@
      - this function should return a valid coordinate
      - if the attack coordinate is not valid, your turn will be automatically skipped
      - if both players skip their turns in a row, the game will end in a draw
+
+## Sandbox Boundaries
+All mathematical functions are allowed. Also, the players are allowed an access to the Block class (passed within the boards).
