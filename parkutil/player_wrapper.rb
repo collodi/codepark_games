@@ -1,4 +1,6 @@
 require 'timeout'
+require 'shikashi'
+require_relative 'sandbox'
 
 module Parkutil
 
@@ -10,9 +12,12 @@ module Parkutil
       @uid = uid
       @timeout_sec = 1
 
-      require f
+      @sandbox = Shikashi::Sandbox.new
+      @sandbox.run(Sandbox.priv, File.open(f, 'rb').read)
 
-      m = Object.const_get f.basename('.rb').to_s.split('_').map(&:capitalize).join
+      # require f
+      m_name = f.basename('.rb').to_s.split('_').map(&:capitalize).join
+      m = @sandbox.base_namespace.const_get m_name
       reg_funcs.each do |func, argc|
         # has function?
         raise IncompleteImplementation, "User #{uid} does not have a required function '#{func}'" if not m.method_defined? func
@@ -26,8 +31,11 @@ module Parkutil
         m.instance_methods.each do |func|
           define_method(func) do |*args, &blk|
             Timeout::timeout(@timeout_sec, Parkutil::ClockTimeout) do
-              # TODO (sandbox)
-              super(*args, &blk)
+              begin
+                super(*args, &blk)
+              rescue SecurityError => e
+                raise Parkutil::PermissionDenied, e
+              end
             end
           end
         end

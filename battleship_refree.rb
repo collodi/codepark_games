@@ -4,6 +4,7 @@ require_relative 'battleship'
 class BattleshipRefree
 
   def initialize(w, h)
+    Parkutil.register_class(Battleship::Block)
     Parkutil.register_function('deploy', 2)
     Parkutil.register_function('play', 4)
     Parkutil.load_players(2)
@@ -51,6 +52,7 @@ class BattleshipRefree
     begin
       h = Parkutil.current_player.play(m.get, o.hidden, m.last_attacked, o.last_sunk)
     rescue Parkutil::ClockTimeout
+    rescue Parkutil::PermissionDenied
     ensure
       o.attack h
       Parkutil.advance_turn
@@ -61,6 +63,8 @@ class BattleshipRefree
     begin
       ships = Parkutil.player(i).deploy(*@board_dim)
       @boards[i].deploy(ships)
+    rescue Parkutil::PermissionDenied
+      @boards[i].lost = true
     rescue Parkutil::ClockTimeout
       @boards[i].lost = true
     end

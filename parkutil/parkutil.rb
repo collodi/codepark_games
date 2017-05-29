@@ -1,6 +1,7 @@
 require 'pathname'
 require_relative 'exceptions'
 require_relative 'player_wrapper'
+require_relative 'sandbox'
 
 module Parkutil
 
@@ -10,6 +11,10 @@ module Parkutil
 
   def self.register_function(name, argc)
     @registered_functions[name] = argc
+  end
+
+  def self.register_class(c)
+    Sandbox.priv.instances_of(c).allow_all
   end
 
   def self.load_players(minn, maxn=nil)

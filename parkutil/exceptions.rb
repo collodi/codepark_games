@@ -1,5 +1,6 @@
 module Parkutil
 
+  class PermissionDenied < StandardError; end
   class ClockTimeout < StandardError; end
   class NotEnoughPlayers < StandardError; end
   class TooManyPlayers < StandardError; end

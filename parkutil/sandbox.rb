@@ -1,17 +1,11 @@
 require 'shikashi'
-require_relative 'player_wrapper'
 
 module Sandbox
-
-  def self.box
-    @@box
-  end
 
   def self.priv
     @@priv
   end
 
-  @@box = Shikashi::Sandbox.new
   @@priv = Shikashi::Privileges.new
 
   @@priv.instances_of(Array).allow_all
