@@ -29,15 +29,8 @@ module Parkutil
       # check if player exists
       raise PlayerNotFound, "User #{uid} does not have a player for #{gamename}" if not File.exist? f
 
-      p = PlayerWrapper.new(f, uid)
+      p = PlayerWrapper.new(f, uid, @registered_functions)
       @players.push(p)
-
-      @registered_functions.each do |func, argc|
-        # has function?
-        raise IncompleteImplementation, "User #{uid} does not have a required function #{func}" if not p.respond_to? func
-        # check number of parameters
-        raise MismatchingFunctionSignature, "User #{uid}'s function #{func} should have #{argc} argumens" if p.method(func).arity != argc
-      end
     end
   end
 
