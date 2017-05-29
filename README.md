@@ -41,6 +41,11 @@ Your `<game_name>.rb` file may contain all dependencies from the `<game_name>/` 
 
 In every `<game_name>_refree.rb`, you should check for all the necessary functions for a game by using `register_function(name, argnum)` function in `Parkutil` module. Registering necessary functions should be done before calling `load_players()`, which loads player instances. `Parkutil` will check for the existence of a function `name` taking `argnum` number of arguments when loading player instances.
 
+## Sandboxing Users
+Player functions are automatically sandboxed with [shikashi gem](https://github.com/tario/shikashi). Basic mathematical functionalities are allowed by default. However, if you require players to be able to access a custom class, you can use `register_class(name)` function in `Parkutil` module before calling `load_players()`. This will allow players to call any method in that class.
+
+For example, for the game `Battleship`, players need access to `Battleship::Block` class, and so `register_class(Battleship::Block)` will be called in the `battleship_refree.rb` file before calling `load_players()`.
+
 ## Loading Player Instances
 `load_players(min number of players, max number of players)` function in `Parkutil` module returns a list of player instances. When max is missing, the function will look for exactly the minimum number of players.  
 This function throws following exceptions:
