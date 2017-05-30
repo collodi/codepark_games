@@ -35,7 +35,7 @@ The module can be used like this:
 
     require_relative 'parkutil'
   
-and every game should be implemented in Ruby (current version 2.4.0).
+and every game should be implemented in Ruby (current version 2.3.4).
 
 ## Initializing A Game
 Your `<game_name>.rb` file may contain all dependencies from the `<game_name>/` directory by doing `require_relative <game_name>/<class>`. Then, you will be able to use all your classes inside your refree file by doing `require_relative <game_name>`.
