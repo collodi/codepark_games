@@ -23,6 +23,8 @@ module Sandbox
   @@priv.instances_of(Math).allow_all
   @@priv.instances_of(Float).allow_all
   @@priv.instances_of(Integer).allow_all
+  @@priv.instances_of(Fixnum).allow_all
+  @@priv.instances_of(Bignum).allow_all
   @@priv.instances_of(Rational).allow_all
   @@priv.instances_of(Numeric).allow_all
   @@priv.instances_of(Range).allow_all
