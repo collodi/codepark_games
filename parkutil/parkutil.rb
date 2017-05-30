@@ -18,7 +18,7 @@ module Parkutil
   end
 
   def self.load_players(minn, maxn=nil)
-    gamename = $0[0...-('_refree.rb'.length)]
+    gamename = File.basename($0, '_refree.rb')
 
     # check min
     raise NotEnoughPlayers, "Need at least #{minn} players to play #{gamename}" if ARGV.length < minn
