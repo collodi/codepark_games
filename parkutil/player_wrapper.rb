@@ -12,11 +12,10 @@ module Parkutil
       @uid = uid
       @timeout_sec = 1
 
-      @sandbox = Shikashi::Sandbox.new
-      @sandbox.run(Sandbox.priv, File.open(f, 'rb').read)
-
-      # require f
       m_name = f.basename('.rb').to_s.split('_').map(&:capitalize).join
+      @sandbox = Shikashi::Sandbox.new
+      @sandbox.run(Sandbox.priv, "module #{m_name}\n #{File.open(f, 'rb').read}\n end")
+
       m = @sandbox.base_namespace.const_get m_name
       reg_funcs.each do |func, argc|
         # has function?
