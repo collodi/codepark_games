@@ -16,7 +16,7 @@
 ## Game Objects
 - board: a two dimensional array of blocks (e.g. board[row][column])
 - block: makes up the board
-  - block.is_occupied: True or False depending on if ship overlaps the block; None if unknown
+  - block.is_occupied: True or False depending on if ship overlaps the block; nil if unknown
   - block.is_hit: True or False depending on if the block was attacked
 
 ## Necessary Implementations
@@ -48,14 +48,14 @@
              - each block is either 0, 1, 2, or 3 representing water, ship, attacked water, or attacked ship, respectively
      - attacks - the board your opponent's ships are deployed on
                - each block is either 0, 1, or 2 representing not yet attacked, attack fail, or attack success, respectively
-     - last_attacked - (row, column) of your opponent's last attack; None if your opponent skipped his/her turn or if this is the first move of the game
+     - last_attacked - (row, column) of your opponent's last attack; nil if your opponent skipped his/her turn or if this is the first move of the game
      - sunk - the length of the ship you sank with your last move if any; 0 if no ship sank from your last move
 
    - return value
      - (row, column) to attack on the opponent's board
      - row and column values should be a valid coordinate on the board
      - if the value is not a valid attack spot, your turn will be skipped
-     - return None to skip your turn
+     - return nil to skip your turn
      - already attacked coordinate is NOT a valid coordinate
 
    - notes
