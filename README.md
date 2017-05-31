@@ -54,6 +54,8 @@ This function throws following exceptions:
  - Parkutil::TooManyPlayers
  - Parkutil::PlayersHomeNotSet (raised if environment variable 'CODEPARK_PLAYERS_HOME' does not exists)
  - Parkutil::PlayerNotFound
+
+The following exceptions will be handled within `Parkutil`:
  - Parkutil::IncompleteImplementation (raised if a player does not have all required functions)
  - Parkutil::MismatchingFunctionSignature (raised if a player's required function takes in a wrong number of arguments)
 
