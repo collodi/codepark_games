@@ -80,10 +80,10 @@ If the game ended in a draw, the refree should
  1. print nothing to `stdout` or `stderr`
  2. exit with a code 1
  
-If there was an exception while executing a player's method, the refree should
+If there was an exception (besides `Parkutil::ClockTimeout`) while executing a player's method, the refree should
  1. print uid of the player who caused the exception to `stdout`
  2. print exception message (backtrace is allowed) to `stderr`
- 3. exit with a code 2
+ 3. exit with a code 2 immediately
  
 Note that refrees should only print what is instructed throughout the game and nothing else. When printing to `stdout` or `stderr`, either `puts` or `print` should be used. Please do not use `p` to print.
 
