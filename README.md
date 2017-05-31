@@ -63,6 +63,7 @@ This function throws following exceptions:
  - Parkutil.current_player - returns the instance of a player at current turn 
  - Parkutil.turn(i = 0) - returns the index of a player at turn + i (e.g. i = -1 returns previous player's index)  
  - Parkutil.advance_turn - advances one turn, and returns the index of a player at the advanced turn
+ - Parkutil.print_exception(e) - prints an exception, e, in a unifying format across games
 
 ## Setting Player Function Timeouts
 To prevent player functions from delaying the game, they run with a timeout.
@@ -82,7 +83,7 @@ If the game ended in a draw, the refree should
  
 If there was an exception (besides `Parkutil::ClockTimeout`) while executing a player's method, the refree should
  1. print uid of the player who caused the exception to `stdout`
- 2. print exception message (backtrace is allowed) to `stderr`
+ 2. print exception message using `Parkutil.print_exception(e)`
  3. exit with a code 2 immediately
  
 Note that refrees should only print what is instructed throughout the game and nothing else. When printing to `stdout` or `stderr`, either `puts` or `print` should be used. Please do not use `p` to print.
