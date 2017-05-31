@@ -44,7 +44,7 @@ class BattleshipRefree
       h = Parkutil.current_player.play(m.get, o.hidden, m.last_attacked, o.last_sunk)
     rescue Parkutil::ClockTimeout
     rescue => e
-      puts Parkutil.player.uid
+      puts Parkutil.current_player.uid
       Parkutil.print_exception(e)
       exit 2
     end
@@ -60,7 +60,7 @@ class BattleshipRefree
     rescue Parkutil::ClockTimeout
       @boards[i].lost = true
     rescue => e
-      puts Parkutil.player.uid
+      puts Parkutil.player(i).uid
       Parkutil.print_exception(e)
       exit 2
     end

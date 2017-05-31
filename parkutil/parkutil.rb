@@ -49,7 +49,7 @@ module Parkutil
     @players.length
   end
 
-  def self.player(i = 0)
+  def self.player(i)
     @players[i % @players.length]
   end
 
