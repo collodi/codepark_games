@@ -19,29 +19,20 @@ class BattleshipRefree
     Parkutil.count_players.times { |i| self.deploy(i) }
 
     while true do
-      r = self.over
-      if r == -2 then
-        puts 'DRAW'
-        break
-      elsif r != -1 then
-        puts Parkutil.player(r).uid
-        break
-      end
-
+      self.over!
       self.playturn
     end
   end
 
-  def over
-    # draws
-    return -2 if @boards.all? { |b| b.lost }
-    return -2 if @boards.all? { |b| b.opp_skipped }
+  def over!
+    # draw
+    exit 1 if @boards.all? { |b| b.lost } or @boards.all? { |b| b.opp_skipped }
 
     # check myself if lost
-    return Parkutil.turn(-1) if @boards[Parkutil.turn].lost
-
-    # game goes on
-    return -1
+    if @boards[Parkutil.turn].lost then
+      puts Parkutil.player(Parkutil.turn(-1)).uid
+      exit 0
+    end
   end
 
   def playturn
@@ -52,7 +43,9 @@ class BattleshipRefree
     begin
       h = Parkutil.current_player.play(m.get, o.hidden, m.last_attacked, o.last_sunk)
     rescue Parkutil::ClockTimeout
-    rescue Parkutil::PermissionDenied
+    rescue => e
+      Parkutil.print_exception(e)
+      exit 2
     ensure
       o.attack h
       Parkutil.advance_turn
@@ -63,10 +56,11 @@ class BattleshipRefree
     begin
       ships = Parkutil.player(i).deploy(*@board_dim)
       @boards[i].deploy(ships)
-    rescue Parkutil::PermissionDenied
-      @boards[i].lost = true
     rescue Parkutil::ClockTimeout
       @boards[i].lost = true
+    rescue => e
+      Parkutil.print_exception(e)
+      exit 2
     end
   end
 

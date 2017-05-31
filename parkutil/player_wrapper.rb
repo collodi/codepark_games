@@ -14,14 +14,14 @@ module Parkutil
 
       m_name = f.basename('.rb').to_s.split('_').map(&:capitalize).join
       @sandbox = Shikashi::Sandbox.new
-      @sandbox.run(Sandbox.priv, "module #{m_name}\n #{File.open(f, 'rb').read}\n end")
+      @sandbox.run(Sandbox.priv, "module #{m_name}\n#{File.open(f, 'rb').read}\nend")
 
       m = @sandbox.base_namespace.const_get m_name
       reg_funcs.each do |func, argc|
         # has function?
-        raise IncompleteImplementation, "User #{uid} does not have a required function '#{func}'" if not m.method_defined? func
+        raise IncompleteImplementation.new("You do not have a required function '#{func}'") if not m.method_defined? func
         # check number of parameters
-        raise MismatchingFunctionSignature, "User #{uid}'s function '#{func}' should have #{argc} argumens" if m.instance_method(func).arity != argc
+        raise MismatchingFunctionSignature, "Your function '#{func}' should have #{argc} argumens" if m.instance_method(func).arity != argc
       end
 
       to_extend = Module.new do
@@ -33,7 +33,8 @@ module Parkutil
               begin
                 super(*args, &blk)
               rescue SecurityError => e
-                raise Parkutil::PermissionDenied, e
+                ln, fn = e.backtrace[2].split(':')[1..-1]
+                raise PermissionDenied.new(e.message, ln, fn)
               end
             end
           end

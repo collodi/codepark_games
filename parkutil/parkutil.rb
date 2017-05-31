@@ -34,7 +34,12 @@ module Parkutil
       # check if player exists
       raise PlayerNotFound, "User #{uid} does not have a player for #{gamename}" if not File.exist? f
 
-      p = PlayerWrapper.new(f, uid, @registered_functions)
+      begin
+        p = PlayerWrapper.new(f, uid, @registered_functions)
+      rescue => e
+        self.print_exception(e)
+        exit 2
+      end
       @players.push(p)
     end
   end
@@ -57,6 +62,13 @@ module Parkutil
 
   def self.advance_turn
     @turn = self.turn(1)
+  end
+
+  def self.print_exception(e)
+    STDERR.puts "error: #{e.message}"
+    e.backtrace.each do |bt|
+      STDERR.puts "\t#{bt}"
+    end
   end
 
 end
