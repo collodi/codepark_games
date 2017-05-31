@@ -38,7 +38,6 @@
      - this function will be called before the game starts
      - this function should return a valid placement of ships
      - if the deployment is invalid, you will automatically lose the game
-     - if the function steps out of the sandbox boundary, the deployment is considered invalid
      - if both players fail to provide valid deployment, the game is considered invalid
 
  - def play(board, attacks, last_attacked, sunk)
@@ -61,7 +60,6 @@
    - notes
      - this function should return a valid coordinate
      - if the attack coordinate is not valid, your turn will be automatically skipped
-     - if the function steps out of the sandbox boundary, the return value is considered invalid
      - if both players skip their turns in a row, the game will end in a draw
 
 ## Sandbox Boundaries
