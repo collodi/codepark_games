@@ -37,6 +37,7 @@ module Parkutil
       begin
         p = PlayerWrapper.new(f, uid, @registered_functions)
       rescue => e
+        puts uid
         self.print_exception(e)
         exit 2
       end

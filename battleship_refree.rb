@@ -44,12 +44,13 @@ class BattleshipRefree
       h = Parkutil.current_player.play(m.get, o.hidden, m.last_attacked, o.last_sunk)
     rescue Parkutil::ClockTimeout
     rescue => e
+      puts Parkutil.player.uid
       Parkutil.print_exception(e)
       exit 2
-    ensure
-      o.attack h
-      Parkutil.advance_turn
     end
+
+    o.attack h
+    Parkutil.advance_turn
   end
 
   def deploy(i)
@@ -59,6 +60,7 @@ class BattleshipRefree
     rescue Parkutil::ClockTimeout
       @boards[i].lost = true
     rescue => e
+      puts Parkutil.player.uid
       Parkutil.print_exception(e)
       exit 2
     end
