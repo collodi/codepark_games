@@ -68,7 +68,7 @@ module Parkutil
   def self.print_exception(e)
     STDERR.puts "error: #{e.message}"
     e.backtrace.each do |bt|
-      STDERR.puts "\t#{bt}"
+      STDERR.puts "#{bt}"
     end
   end
 
