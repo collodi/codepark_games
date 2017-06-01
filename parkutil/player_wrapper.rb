@@ -19,7 +19,7 @@ module Parkutil
       m = @sandbox.base_namespace.const_get m_name
       reg_funcs.each do |func, argc|
         # has function?
-        raise IncompleteImplementation.new("You do not have a required function '#{func}'") if not m.method_defined? func
+        raise IncompleteImplementation, "You do not have a required function '#{func}'" if not m.method_defined? func
         # check number of parameters
         raise MismatchingFunctionSignature, "Your function '#{func}' should have #{argc} argumens" if m.instance_method(func).arity != argc
       end
@@ -34,7 +34,10 @@ module Parkutil
                 super(*args, &blk)
               rescue SecurityError => e
                 ln, fn = e.backtrace[2].split(':')[1..-1]
-                raise PermissionDenied.new(e.message, ln, fn)
+                raise PermissionDenied.new(e.message, ln.to_i - 4, fn)
+              rescue => e
+                ln, fn = e.backtrace[2].split(':')[1..-1]
+                raise CodeparkError.new(e.message, ln.to_i - 4, fn)
               end
             end
           end
