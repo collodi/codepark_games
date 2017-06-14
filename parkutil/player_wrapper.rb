@@ -33,10 +33,10 @@ module Parkutil
               begin
                 super(*args, &blk)
               rescue SecurityError => e
-                ln, fn = e.backtrace[2].split(':')[1..-1]
+                ln, fn = e.backtrace.find { |el| el.start_with? 'sandbox-' }.split(':')[1..-1]
                 raise PermissionDenied.new(e.message, ln.to_i - 4, fn)
               rescue => e
-                ln, fn = e.backtrace[2].split(':')[1..-1]
+                ln, fn = e.backtrace.find { |el| el.start_with? 'sandbox-' }.split(':')[1..-1]
                 raise CodeparkError.new(e.message, ln.to_i - 4, fn)
               end
             end
