@@ -8,19 +8,18 @@
 
 ## Necessary Implementations
 
- - def play(board, opponent_last, my_last, piece)
+ - def play(board, opponent_last, piece)
  
    - parameters
      - board - a two dimensional list with six rows and seven columns (i.e. board[6][7])
-     - opponent_last - opponent's last move in (row, column); nil if opponent skipped his/her turn or this is the first move of the game
-     - my_last - your last move in (row, column); nil if you skipped your last turn or this is the first move of the game
-     - piece - true or false; signifies your piece on the board
+     - opponent_last - opponent's last move in [row, column]; `nil` if opponent skipped his/her turn or this is the first move of the game
+     - piece - 0 or 1; signifies your piece on the board
 
    - return value
-     - (row, column) to play
+     - [row, column] to play
      - if the return value is not a valid spot on the board, your turn will be automatically skipped
-     - return nil to skip your turn
+     - return `nil` to skip your turn
 
    - notes
-     - each spot has one of nil, true, false that signifies empty, player 1's piece, player 2's piece respectively
+     - each spot has one of `nil`, `0`, `1` that signifies empty, first player's piece, second player's piece respectively
      - if both players skip in a row, the game will end in a draw
