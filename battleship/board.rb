@@ -5,7 +5,7 @@ module Battleship
     attr_accessor :lost
 
     def initialize(w, h)
-      @dim = [Block.new(0, 0), Block.new(w, h)]
+      @dim = [Block.new(0, 0), Block.new(h - 1, w - 1)]
       @lost = false
 
       @ships = []
@@ -15,8 +15,8 @@ module Battleship
       @last_sunk = 0
 
       @opp_skipped = false
-      @board = w.times.map do |i|
-        h.times.map { |j| Block.new(i, j) }
+      @board = h.times.map do |i|
+        w.times.map { |j| Block.new(i, j) }
       end
     end
 
