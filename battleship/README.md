@@ -28,7 +28,7 @@
      - height - number of blocks representing the height of the board
 
    - return value
-     - a list of tuples; each tuple in the form of (row, column, orientation)
+     - an array of arrays; each sub-array in the form of [row, column, orientation]
      - the ship will be placed at specified row, column value and in the specified orientation
      - orientation has two possible values: 'H' and 'V', representing horizontal (to right) and vertical (to downwards)
      - the list should contain the exact number of ships
@@ -47,11 +47,11 @@
              - each block is either 0, 1, 2, or 3 representing water, ship, attacked water, or attacked ship, respectively
      - attacks - the board your opponent's ships are deployed on
                - each block is either 0, 1, or 2 representing not yet attacked, attack fail, or attack success, respectively
-     - last_attacked - (row, column) of your opponent's last attack; nil if your opponent skipped his/her turn or if this is the first move of the game
+     - last_attacked - [row, column] of your opponent's last attack; nil if your opponent skipped his/her turn or if this is the first move of the game
      - sunk - the length of the ship you sank with your last move if any; 0 if no ship sank from your last move
 
    - return value
-     - (row, column) to attack on the opponent's board
+     - [row, column] to attack on the opponent's board
      - row and column values should be a valid coordinate on the board
      - if the value is not a valid attack spot, your turn will be skipped
      - return nil to skip your turn
