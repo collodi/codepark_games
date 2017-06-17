@@ -39,7 +39,7 @@ module Parkutil
       rescue => e
         puts uid
         self.print_exception(e)
-        exit 2
+        exit 1
       end
       @players.push(p)
     end

@@ -26,7 +26,7 @@ class BattleshipRefree
 
   def over!
     # draw
-    exit 1 if @boards.all? { |b| b.lost } or @boards.all? { |b| b.opp_skipped }
+    exit 2 if @boards.all? { |b| b.lost } or @boards.all? { |b| b.opp_skipped }
 
     # check myself if lost
     if @boards[Parkutil.turn].lost then
@@ -46,7 +46,7 @@ class BattleshipRefree
     rescue => e
       puts Parkutil.current_player.uid
       Parkutil.print_exception(e)
-      exit 2
+      exit 1
     end
 
     o.attack h
@@ -62,7 +62,7 @@ class BattleshipRefree
     rescue => e
       puts Parkutil.player(i).uid
       Parkutil.print_exception(e)
-      exit 2
+      exit 1
     end
   end
 

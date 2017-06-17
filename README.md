@@ -34,7 +34,7 @@ If writing a codepark game, you should use this pakcage to interact with the pla
 The module can be used like this:
 
     require_relative 'parkutil'
-  
+
 and every game should be implemented in Ruby (current version 2.3.4).
 
 ## Initializing A Game
@@ -48,7 +48,7 @@ Player functions are automatically sandboxed with [shikashi gem](https://github.
 For example, for the game `Battleship`, players need access to `Battleship::Block` class, and so `register_class(Battleship::Block)` will be called in the `battleship_refree.rb` file before calling `load_players()`.
 
 ## Loading Player Instances
-`load_players(min number of players, max number of players)` function in `Parkutil` module returns a list of player instances. When max is missing, the function will look for exactly the minimum number of players.  
+`load_players(min number of players, max number of players)` function in `Parkutil` module returns a list of player instances. When max is missing, the function will look for exactly the minimum number of players.
 This function throws following exceptions:
  - Parkutil::NotEnoughPlayers
  - Parkutil::TooManyPlayers
@@ -62,8 +62,8 @@ The following exceptions will be handled within `Parkutil`:
 ## Addional Helper Methods
  - Parkutil.count_players - returns the number of players loaded
  - Parkutil.player(i) - returns the instance of a player at position i (starting at 0)
- - Parkutil.current_player - returns the instance of a player at current turn 
- - Parkutil.turn(i = 0) - returns the index of a player at turn + i (e.g. i = -1 returns previous player's index)  
+ - Parkutil.current_player - returns the instance of a player at current turn
+ - Parkutil.turn(i = 0) - returns the index of a player at turn + i (e.g. i = -1 returns previous player's index)
  - Parkutil.advance_turn - advances one turn, and returns the index of a player at the advanced turn
  - Parkutil.print_exception(e) - prints an exception, e, in a unifying format across games
 
@@ -74,21 +74,21 @@ Each player instance has its own timeout constant `timeout_sec` with a default v
 ## Output of A Game
 There are three possible outcomes of a game. They are `winner determined`, `draw`, and `exception`.
 
-When there is a winner, the refree should 
+When there is a winner, the refree should
  1. print uid of the winner to `stdout`
  2. print nothing to `stderr`
  2. exit with a code 0
- 
+
 If the game ended in a draw, the refree should
  1. print nothing to `stdout` or `stderr`
- 2. exit with a code 1
- 
+ 2. exit with a code 2
+
 If there was an exception (besides `Parkutil::ClockTimeout`) while executing a player's method, the refree should
  1. print uid of the player who caused the exception to `stdout`
  2. print exception message using `Parkutil.print_exception(e)`
- 3. exit with a code 2 immediately
- 
+ 3. exit with a code 1 immediately
+
 Note that refrees should only print what is instructed throughout the game and nothing else. When printing to `stdout` or `stderr`, either `puts` or `print` should be used. Please do not use `p` to print.
 
 ## Implementation Example
-For a game implementation example, look at the game `Battleship`. 
+For a game implementation example, look at the game `Battleship`.

@@ -25,7 +25,7 @@ class ConnectFourRefree
     end
 
     # draw
-    exit 1 if @board.draw
+    exit 2 if @board.draw
   end
 
   def playturn
@@ -36,7 +36,7 @@ class ConnectFourRefree
     rescue => e
       puts Parkutil.current_player.uid
       Parkutil.print_exception(e)
-      exit 2
+      exit 1
     end
 
     @board.play(spot, Parkutil.turn)
