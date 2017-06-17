@@ -21,7 +21,7 @@ module Parkutil
         # has function?
         raise IncompleteImplementation, "You do not have a required function '#{func}'" if not m.method_defined? func
         # check number of parameters
-        raise MismatchingFunctionSignature, "Your function '#{func}' should have #{argc} argumens" if m.instance_method(func).arity != argc
+        raise MismatchingFunctionSignature, "Your function '#{func}' should have #{argc} arguments" if m.instance_method(func).arity != argc
       end
 
       to_extend = Module.new do

@@ -34,4 +34,6 @@ module Sandbox
   @@priv.instances_of(Regexp).allow_all
   @@priv.instances_of(NilClass).allow_all
   @@priv.instances_of(StopIteration).allow_all
+
+  @@priv.allow_method :module_function
 end
