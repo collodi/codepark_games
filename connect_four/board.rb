@@ -6,6 +6,9 @@ module ConnectFour
     def initialize(w, h)
       @w, @h = w, h
 
+      @last = nil
+      @first_play = true
+
       @draw = false
       @piece_cnt = 0
       @piece_max = @w * @h
@@ -35,7 +38,9 @@ module ConnectFour
         spot = nil if not @board[r][c].nil? or self.floating?(r, c)
       end
 
-      @draw = true if @last.nil? and spot.nil?
+      @draw = true if @last.nil? and spot.nil? and not @first_play
+      @first_play = false if @first_play
+
       @last = spot
       return if spot.nil?
 
