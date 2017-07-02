@@ -8,6 +8,7 @@ class ConnectFourRefree
     Parkutil.load_players(2)
 
     @board = ConnectFour::Board.new(w, h)
+    @logger = Parkutil::GameLogger.new(w, h)
   end
 
   def start
@@ -21,11 +22,16 @@ class ConnectFourRefree
     # check myself if lost
     if @board.gameover? then
       puts Parkutil.player(Parkutil.turn(-1)).uid
+
+      @logger.save
       exit 0
     end
 
     # draw
-    exit 2 if @board.draw
+    if @board.draw then
+      @logger.save
+      exit 2
+    end
   end
 
   def playturn
@@ -40,6 +46,8 @@ class ConnectFourRefree
     end
 
     @board.play(spot, Parkutil.turn)
+    @logger.log(Parkutil.turn, *spot)
+
     Parkutil.advance_turn
   end
 
