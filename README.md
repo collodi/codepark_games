@@ -10,6 +10,7 @@ A game should have a directory structure of
     | <game_name>.rb
     | <game_name>/
         | <class files, etc>
+        | painter.js (optional)
     |
     | parkutil.rb
     | parkutil/
@@ -71,6 +72,9 @@ The following exceptions will be handled within `Parkutil`:
 To prevent player functions from delaying the game, they run with a timeout.
 Each player instance has its own timeout constant `timeout_sec` with a default value of 1 (seconds), and this variable may be rewritten by a refree. `Parkutil::ClockTimeout` will be raised if a player function does not terminate within the time limit.
 
+## Logging Plays
+To help the users analyize their code, `codepark` implements a method to show the gameplays. The refrees may log players' moves through `Parkutil::GameLogger` class. The `GameLogger` has the `log` method that takes any number of arguments. The `GameLogger` class may be initiated with any number of arguments. See [here](#drawing-gameplays) for more explanation.
+
 ## Output of A Game
 There are three possible outcomes of a game. They are `winner determined`, `draw`, and `exception`.
 
@@ -91,4 +95,15 @@ If there was an exception (besides `Parkutil::ClockTimeout`) while executing a p
 Note that refrees should only print what is instructed throughout the game and nothing else. When printing to `stdout` or `stderr`, either `puts` or `print` should be used. Please do not use `p` to print.
 
 ## Implementation Example
-For a game implementation example, look at the game `Battleship`.
+For a game implementation example, look at `Battleship`.
+
+# Drawing Gameplays
+If you utilize `Parkutil::GameLogger` in your refree, you can use your `<game_name>/painter.js` file to draw the gameplays for the players. The `painter.js` file should contain `[paper.js](http://paperjs.org/)` code. Your code in `paper.js` will be automatically linked to one canvas. Your file should contain 3 top-level functions: `draw_game_set`, `draw_next_move`, and `draw_reverse_move`.
+
+`draw_game_set` should draw the game environment (such as a board). It will only be called one time at the beginning, and the arguments you passed to `GameLogger::new` will be passed in an array (e.g. if you called `GameLogger.new(width, height)` in the refree file, `draw_game_set([width, height])` will be called).
+
+`draw_next_move` should draw each move of the players on the canvas, and arguments you passed to `GameLogger::log` in each call will be passed in an array.
+
+`draw_reverse_move` should reverse the last draw on the canvas, and it has no arguments.
+
+For an example, look at `connect_four`.
