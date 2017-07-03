@@ -10,10 +10,11 @@ A game should have a directory structure of
     | <game_name>.rb
     | <game_name>/
         | <class files, etc>
-        | painter.js (optional)
     |
     | parkutil.rb
     | parkutil/
+    | painters/
+        | <game_name>_painter.js (optional)
 
 # Dependencies Between User Codes And Game Files
 
@@ -98,7 +99,7 @@ Note that refrees should only print what is instructed throughout the game and n
 For a game implementation example, look at `Battleship`.
 
 # Drawing Gameplays
-If you utilize `Parkutil::GameLogger` in your refree, you can use your `<game_name>/painter.js` file to draw the gameplays for the players. The `painter.js` file should contain `[paper.js](http://paperjs.org/)` code. Your code in `paper.js` will be automatically linked to one canvas. Your file should contain 3 top-level functions: `draw_game_set`, `draw_next_move`, and `draw_reverse_move`.
+If you utilize `Parkutil::GameLogger` in your refree, you can use your `<game_name>_painter.js` file to draw the gameplays for the players. The `painter` file should contain `[paper.js](http://paperjs.org/)` code. Your code in `paper.js` will be automatically linked to one canvas. Your file should contain 3 top-level functions: `draw_game_set`, `draw_next_move`, and `draw_reverse_move`.
 
 `draw_game_set` should draw the game environment (such as a board). It will only be called one time at the beginning, and the arguments you passed to `GameLogger::new` will be passed in an array (e.g. if you called `GameLogger.new(width, height)` in the refree file, `draw_game_set([width, height])` will be called).
 
