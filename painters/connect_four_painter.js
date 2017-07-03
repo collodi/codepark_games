@@ -1,4 +1,6 @@
-var v = view.size * 0.9;
+var v = view.size;
+v *= 0.9;
+
 var x_offset = (view.size.width - view.size.height) / 2;
 var y_offset = view.size.height * 0.05;
 
