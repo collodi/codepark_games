@@ -99,12 +99,13 @@ Note that refrees should only print what is instructed throughout the game and n
 For a game implementation example, look at `Battleship`.
 
 # Drawing Gameplays
-If you utilize `Parkutil::GameLogger` in your refree, you can use your `<game_name>_painter.js` file to draw the gameplays for the players. The `painter` file should contain [`paper.js`](http://paperjs.org/) code. Your code in `paper.js` will be automatically linked to one canvas. Your file should contain 3 top-level functions: `draw_game_set`, `draw_next_move`, and `draw_reverse_move`.
+If you utilize `Parkutil::GameLogger` in your refree, you can use your `<game_name>_painter.js` file to draw the gameplays for the players. The `painter` file should contain [`paper.js`](http://paperjs.org/) code. Your code in `paper.js` will be automatically linked to one canvas. 
 
-`draw_game_set` should draw the game environment (such as a board). It will only be called one time at the beginning, and the arguments you passed to `GameLogger::new` will be passed in an array (e.g. if you called `GameLogger.new(width, height)` in the refree file, `draw_game_set([width, height])` will be called).
+Your painter should
+ - set up the game environment in the beginning
+ - implement a function that draws the next move and bind `#next-move` click to it
+ - implement a function that erases the last move drawn and bind `#prev-move` click to it
 
-`draw_next_move` should draw each move of the players on the canvas, and arguments you passed to `GameLogger::log` in each call will be passed in an array.
-
-`draw_reverse_move` should reverse the last draw on the canvas, and it has no arguments.
+The gameplay data is contained in `gameplays` variable. Index 0 has an array containing all the arguments passed to `GameLogger::new` in the refree file. From the index 1, you will have arrays of arguments passed to each `GameLogger::log` call.
 
 For an example, look at `connect_four`.
