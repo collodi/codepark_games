@@ -46,7 +46,7 @@ class ConnectFourRefree
     end
 
     @board.play(spot, Parkutil.turn)
-    @logger.log(Parkutil.turn, *spot)
+    @logger.log(Parkutil.current_player.uid, *spot)
 
     Parkutil.advance_turn
   end
