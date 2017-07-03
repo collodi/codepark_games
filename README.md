@@ -106,6 +106,8 @@ Your painter should
  - implement a function that draws the next move and bind `#next-move` click to it
  - implement a function that erases the last move drawn and bind `#prev-move` click to it
 
-The gameplay data is contained in `gameplays` variable. Index 0 has an array containing all the arguments passed to `GameLogger::new` in the refree file. From the index 1, you will have arrays of arguments passed to each `GameLogger::log` call.
+The gameplay data is contained in `gameplays` variable. Index 0 has an array containing all the arguments passed to `GameLogger::new` in the refree file. From the index 1, you will have arrays of arguments passed to each `GameLogger::log` call. Also, current user's GitHub uid is stored in `current_uid` variable.
+
+To display message for users, you may use `#message` section.
 
 For an example, look at `connect_four`.
