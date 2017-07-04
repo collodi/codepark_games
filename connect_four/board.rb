@@ -48,7 +48,7 @@ module ConnectFour
       @board[r][c] = piece
 
       @piece_cnt += 1
-      draw = true if @piece_cnt == @piece_max # truly true only if gameover? is false
+      @draw = true if @piece_cnt == @piece_max # truly true only if gameover? is false
     end
 
     def gameover?
